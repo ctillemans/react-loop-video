@@ -4,21 +4,24 @@ import { useEffect } from 'react';
 
 const ReactVideoLoop = ({ videoSrc }) => {
   const playerRef = React.createRef();
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     console.log(playerRef.current);
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
+  const videoPlayer = document.getElementsByClassName('video__source');
+
+  useEffect(() => {
+    console.log(videoPlayer);
+    console.log(playerRef.current);
+    const interval = setInterval(() => {}, 1000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div className='video_container'>
-      <iframe
+      <video
         className='video__source'
+        controls
         autoPlay
         muted
+        ref={playerRef}
         src={videoSrc}
-        // ref={playerRef}
-      />
+      ></video>
     </div>
   );
 };

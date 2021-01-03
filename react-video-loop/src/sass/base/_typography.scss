@@ -1,0 +1,39 @@
+@import './variables';
+@font-face {
+  font-family: Roboto;
+  src: url(https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;900&display=swap);
+}
+
+html {
+  font-family: Roboto, sans-serif;
+  color: $black;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $bold;
+  margin: 0;
+}
+p,
+li {
+  font-weight: $light;
+}
+a {
+  color: $black;
+  text-decoration-color: $green;
+  /* Chrome renders this weird with this font, so we turn it off */
+  text-decoration-skip-ink: none;
+}
+ul {
+  text-decoration: none;
+  padding: 0;
+}
+li {
+  text-decoration: none;
+  list-style: none;
+}

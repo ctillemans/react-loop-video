@@ -4,8 +4,10 @@ import { useEffect, useState, useRef } from 'react';
 import ControlBar from './controlBar';
 
 const ReactVideoLoop = ({ videoSrc }) => {
-  const playerRef = React.createRef();
+  const playerRef = useRef();
+
   const [playing, setPlaying] = useState(false);
+  const [inMark, setInmark] = useState(10);
 
   const useStateUpdated = (cb, inputs) => {
     const initialStateMount = useRef(false);
@@ -23,18 +25,23 @@ const ReactVideoLoop = ({ videoSrc }) => {
     }, inputs);
   };
   const playVideo = () => {
-    console.log('running play video');
-    console.log(`playing: ${playing}`);
-
     playing ? playerRef.current.play() : playerRef.current.pause();
   };
 
   useStateUpdated(playVideo, [playing]);
 
   useEffect(() => {
-    console.log(playerRef.current);
-    const interval = setInterval(() => {}, 1000);
-    return () => clearInterval(interval);
+    console.log(playerRef);
+
+    if (playing) {
+      const interval = setInterval(() => {
+        console.log(playerRef.current.currentTime);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  });
+  useEffect(() => {
+    playerRef.current.currentTime = inMark;
   }, []);
 
   return (

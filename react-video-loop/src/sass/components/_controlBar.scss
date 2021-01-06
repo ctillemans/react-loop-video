@@ -5,8 +5,24 @@
   width: 100%;
   height: 80px;
   background: rgba(0, 0, 0, 0.71);
-  display: grid;
+  display: none;
   grid-template-columns: 1fr auto auto;
   justify-items: start;
   color: white;
+  &.hovered {
+    display: grid;
+  }
+
+  &__playbutton {
+    height: 100%;
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    svg {
+      height: 3em;
+      width: 3rem;
+    }
+  }
 }

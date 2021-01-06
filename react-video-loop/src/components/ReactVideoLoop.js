@@ -8,6 +8,7 @@ const ReactVideoLoop = ({ videoSrc }) => {
 
   const [playing, setPlaying] = useState(false);
   const [inMark, setInmark] = useState(10);
+  const [showControls, setShowControls] = useState(true);
 
   const useStateUpdated = (cb, inputs) => {
     const initialStateMount = useRef(false);
@@ -45,7 +46,15 @@ const ReactVideoLoop = ({ videoSrc }) => {
   }, []);
 
   return (
-    <div className='video_container'>
+    <div
+      className='video_container'
+      onMouseEnter={(event) => {
+        setShowControls(true);
+      }}
+      onMouseLeave={(event) => {
+        setShowControls(false);
+      }}
+    >
       <video
         className='video__source'
         muted
@@ -53,6 +62,7 @@ const ReactVideoLoop = ({ videoSrc }) => {
         src={videoSrc}
       ></video>
       <ControlBar
+        showControls={showControls}
         playing={playing}
         handlePlayButton={() => {
           setPlaying(!playing);

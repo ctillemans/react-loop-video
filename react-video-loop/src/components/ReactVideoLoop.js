@@ -1,27 +1,73 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import ControlBar from './controlBar';
 
 const ReactVideoLoop = ({ videoSrc }) => {
-  const playerRef = React.createRef();
-  const videoPlayer = document.getElementsByClassName('video__source');
+  const playerRef = useRef();
+
+  const [playing, setPlaying] = useState(false);
+  const [inMark, setInmark] = useState(10);
+  const [showControls, setShowControls] = useState(true);
+
+  const useStateUpdated = (cb, inputs) => {
+    const initialStateMount = useRef(false);
+
+    useEffect(() => {
+      console.log('running useEffect');
+      console.log(`ref: ${initialStateMount.current}`);
+
+      if (initialStateMount.current) {
+        cb();
+      } else {
+        initialStateMount.current = true;
+        console.log(`ref: ${initialStateMount.current}`);
+      }
+    }, inputs);
+  };
+  const playVideo = () => {
+    playing ? playerRef.current.play() : playerRef.current.pause();
+  };
+
+  useStateUpdated(playVideo, [playing]);
 
   useEffect(() => {
-    console.log(videoPlayer);
-    console.log(playerRef.current);
-    const interval = setInterval(() => {}, 1000);
-    return () => clearInterval(interval);
+    console.log(playerRef);
+
+    if (playing) {
+      const interval = setInterval(() => {
+        console.log(playerRef.current.currentTime);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  });
+  useEffect(() => {
+    playerRef.current.currentTime = inMark;
   }, []);
+
   return (
-    <div className='video_container'>
+    <div
+      className='video_container'
+      onMouseEnter={(event) => {
+        setShowControls(true);
+      }}
+      onMouseLeave={(event) => {
+        setShowControls(false);
+      }}
+    >
       <video
         className='video__source'
-        controls
-        autoPlay
         muted
         ref={playerRef}
         src={videoSrc}
       ></video>
+      <ControlBar
+        showControls={showControls}
+        playing={playing}
+        handlePlayButton={() => {
+          setPlaying(!playing);
+        }}
+      />
     </div>
   );
 };
